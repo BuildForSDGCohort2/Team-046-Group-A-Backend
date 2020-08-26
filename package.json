@@ -7,8 +7,7 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "farmer": "npm start --prefix farmer",
-    "dev": "concurrently \"npm run server\" \"npm run farmer\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix farmer && npm run build --prefix farmer"
+    "dev": "concurrently \"npm run server\" \"npm run farmer\""
   },
   "keywords": [],
   "author": "",

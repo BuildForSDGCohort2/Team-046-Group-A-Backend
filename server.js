@@ -21,12 +21,12 @@ app.use(cors())
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use('/', indexRouter);
-if(process.env.NODE_ENV==='production'){
-  app.use(express.static('farmer/build'))
-  app.get('*', (req,res)=>{
-    res.sendFile(path.join(__dirname, 'farmer', 'build', 'index.html'))
-  })
-}
+// if(process.env.NODE_ENV==='production'){
+//   app.use(express.static('farmer/build'))
+//   app.get('*', (req,res)=>{
+//     res.sendFile(path.join(__dirname, 'farmer', 'build', 'index.html'))
+//   })
+// }
 
 const port = process.env.PORT || 5000
 
