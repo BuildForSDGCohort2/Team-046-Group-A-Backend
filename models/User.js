@@ -13,10 +13,18 @@ const UserSchema = new mongoose.Schema({
    crops:{
        type:Array
    },
-   created:{
+   animals:{
+     type: Array
+   },
+   createdAt:{
        type:Date,
        default: Date.now()
    },
+   updatedAt:{
+     type: Date,
+     default: Date.now()
+   },
+
    image:{
      type: String
    }
