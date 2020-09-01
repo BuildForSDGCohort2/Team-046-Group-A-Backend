@@ -28,49 +28,53 @@
 function objParser(str, init) {
   // finds objects, arrays, strings, and function arguments
   // between parens, because they may contain ','
-  var openSym = ['[', '{', '"', "'", '('];
-  var closeSym = [']', '}', '"', "'", ')'];
+  var openSym = ["[", "{", "\"", "'", "("];
+  var closeSym = ["]", "}", "\"", "'", ")"];
   var type;
-  for(var i = (init || 0); i < str.length; i++ ) {
+  var i;
+  for(i = (init || 0); i < str.length; i++ ) {
     type = openSym.indexOf(str[i]);
-    if( type !== -1)  break;
-  }
-  if (type === -1) return null;
-  var open = openSym[type];
-  var close = closeSym[type];
-  var count = 1;
-  for(var k = i+1; k < str.length; k++) {
-    if(open === '"' || open === "'") {
-      if(str[k] === close) count--;
-      if(str[k] === '\\') k++;
-    } else {
-      if(str[k] === open) count++;
-      if(str[k] === close) count--;
+    if( type !== -1) {
+       break;
     }
-    if(count === 0) break;
   }
-  if(count !== 0) return null;
-  var obj = str.slice(i, k+1);
+  if (type === -1) {return null;}
+  var open = openSym[parseInt(type)];
+  var close = closeSym[parseInt(type)];
+  var count = 1;
+  var k;
+  for(k = i+1; k < str.length; k++) {
+    if(open === '"' || open === "'") {
+      if(str[parseInt(k)] === close) { count--; }
+      if(str[parseInt(k)] === '\\') { k++; }
+    } else {
+      if(str[parseInt(k)] === open) { count++;}
+      if(str[parseInt(k)] === close) { count--;}
+    }
+    if(count === 0) { break; }
+  }
+  if(count !== 0) { return null;}
+  var object = str.slice(i, k+1);
   return {
     start : i,
     end: k,
-    obj: obj
+    obj: object
   };
 }
 
-function replacer(str) {
+function replacer(string) {
   // replace objects with a symbol ( __#n)
   var obj;
   var cnt = 0;
   var data = [];
-  while(obj = objParser(str)) {
+  while(obj == objParser(str)) {
     data[cnt] = obj.obj;
-    str = str.substring(0, obj.start) + '__#' + cnt++ + str.substring(obj.end+1)
+    str = str.substring(0, obj.start) + '__#' + cnt++ + str.substring(obj.end+1);
   }
   return {
-    str : str,
+    str : string,
     dictionary : data
-  }
+  };
 }
 
 function splitter(str) {
@@ -84,7 +88,7 @@ function splitter(str) {
       m = a.match(/__#(\d+)/);
     }
     return a.trim();
-  })
+  });
   return args;
 }
 
@@ -96,14 +100,14 @@ function assertionAnalyser(body) {
   // // get test function body
   // body = body.match(/\{\s*([\s\S]*)\}\s*$/)[1];
 
-  if(!body) return "invalid assertion";
+  if(!body) { return "invalid assertion";}
   // replace assertions bodies, so that they cannot
   // contain the word 'assertion'
 
-  var body = body.match(/(?:browser\s*\.\s*)?assert\s*\.\s*\w*\([\s\S]*\)/)[0];
+  body = body.match(/(?:browser\s*\.\s*)?assert\s*\.\s*\w*\([\s\S]*\)/)[0];
   var s = replacer(body);
   // split on 'assertion'
-  var splittedAssertions = s.str.split('assert');
+  var splittedAssertions = s.str.split("assert");
   var assertions = splittedAssertions.slice(1);
   // match the METHODS
 
@@ -111,7 +115,7 @@ function assertionAnalyser(body) {
   var methods = assertions.map(function(a, i){
     var m = a.match(/^\s*\.\s*(\w+)__#(\d+)/);
     assertionBodies.push(parseInt(m[2]));
-    var pre = splittedAssertions[i].match(/browser\s*\.\s*/) ? 'browser.' : '';
+    var pre = splittedAssertions[i].match(/browser\s*\.\s*/) ? "browser." : "";
     return pre + m[1];
   });
   if(methods.some(function(m){ return !m })) return "invalid assertion";

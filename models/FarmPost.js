@@ -1,11 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const FarmPostSchema = new mongoose.Schema({
 
 farmersId:{
 
   type: String,
-  required: true,
   required: true
 },
 
