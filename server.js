@@ -5,7 +5,7 @@ const cors = require('cors')
 var farmerRouter = require('./routes/farmer');
 const consumerRouter = require('./routes/consumer');
 const mongoose = require("mongoose");
-mongoURI = 'mongodb://localhost/farmConnect' || process.env.ATLAS_URI
+mongoURI = process.env.ATLAS_URI
  mongoose.connect(mongoURI,
   {
     useNewUrlParser: true,
