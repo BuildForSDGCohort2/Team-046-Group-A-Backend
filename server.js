@@ -60,7 +60,7 @@ app.route("/api/user/register")
 const port = process.env.PORT || 5000
 
 app.listen(port);
-console.log(`Server Running at ${port}`)
+console.log(`Server Running at ${port}`);
 if(process.env.NODE_ENV === "test") {
   console.log("Running Tests...");
 }
