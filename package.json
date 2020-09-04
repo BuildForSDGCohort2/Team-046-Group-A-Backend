@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
+    "test": "mocha --timeout 5000",
     "server": "nodemon server.js",
     "farmer": "npm start --prefix farmer",
     "dev": "concurrently \"npm run server\" \"npm run farmer\""

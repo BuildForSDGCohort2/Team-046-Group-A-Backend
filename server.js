@@ -9,7 +9,6 @@ const helmet = require("helmet");
 const dotenv = require("dotenv");
 var indexRouter = require("./routes/index");
 var dbApp = require("./repository/DB.js");
-var runner = require("./test-runner");
 
 app.use(bodyParser.json());
 app.use(cors);
@@ -19,7 +18,7 @@ app.use(helmet.xssFilter());
 app.use(nocache());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use('/', indexRouter);
+app.use("/", indexRouter);
 const errorMsg={};
 const status ={};
 
@@ -39,7 +38,7 @@ app.route("/api/user/register")
        errorMsg.error="Empty Request Body!"
        res.json(errorMsg);
        }
-     else if (body.email==null || body.password == null) {
+     else if (!body.hasOwnProperty("email")|| !body.hasOwnProperty("password")) {
        errorMsg.error="Missing emails/password fields";
        res.json(errorMsg);
      }
@@ -60,17 +59,9 @@ app.route("/api/user/register")
 
 const port = process.env.PORT || 5000
 
-app.listen(port, () => console.log(`Server Running at ${port}`));
-
-console.log("Running Tests...");
-    setTimeout(function () {
-      try {
-        runner.run();
-      } catch(e) {
-        var error = e;
-          console.log("Tests are not valid:");
-          console.log(error);
-      }
-    }, 1500);
-
-module.exports = app;
+app.listen(port);
+console.log(`Server Running at ${port}`)
+if(process.env.NODE_ENV === "test") {
+  console.log("Running Tests...");
+}
+module.exports = app; // for testing
