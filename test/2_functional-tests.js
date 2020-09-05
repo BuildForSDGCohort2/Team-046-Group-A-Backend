@@ -28,7 +28,7 @@ describe("Functional Tests", function() {
     describe("POST", function() {
       it("Create A New User",function (done) {
         chai.request(server)
-            .post("/api/user/register")
+            .post("/api/user/signup")
             .send({
               "name":"Ciga Igbo",
               "password":"ciga",
@@ -51,7 +51,7 @@ describe("Functional Tests", function() {
     describe("POST", function() {
       it("Create An Already Existing User",function (done) {
         chai.request(server)
-            .post("/api/user/register")
+            .post("/api/user/signup")
             .send({
               "name":"Ciga Igbo",
               "password":"ciga",
@@ -70,7 +70,7 @@ describe("Functional Tests", function() {
     describe("POST", function() {
       it("Missing Emails and Password fields",function (done) {
         chai.request(server)
-            .post("/api/user/register")
+            .post("/api/user/signup")
             .send({
               "name":"Ciga Igbo",
               "crops":["Maize","Yam"],

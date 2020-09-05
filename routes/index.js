@@ -1,11 +1,20 @@
 var express = require('express');
 var router = express.Router();
-const cors = require('cors')
-const jwt = require('jsonwebtoken')
-const bcrypt = require('bcryptjs')
-const key = process.env.SECRET_KEY || 'secret'
-router.use(cors())
-const User = require('../models/User')
+const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const key = process.env.SECRET_KEY || 'secret';
+router.use(cors());
+const User = require('../models/User');
+const errorMsg={};
+const status ={};
+
+router.get("/api/server/status", async(req, res) => {
+  const query = req.query;
+  status.msg ="Server is Up and Ready";
+  res.json(status);
+
+});
 router.post('/signup', async(req,res)=>{
   const today = new Date()
 
@@ -39,7 +48,7 @@ router.post('/signup', async(req,res)=>{
       .catch(err=>{
           res.send('error' + err)
       })
-})
+});
 
 router.post('/login',(req,res)=>{
   User.findOne({email:req.body.email})
@@ -65,6 +74,6 @@ router.post('/login',(req,res)=>{
       .catch(err=>{
           res.send('error' + err)
       })
-})
+});
 
 module.exports = router;

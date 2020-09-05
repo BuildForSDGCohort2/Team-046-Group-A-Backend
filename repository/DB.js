@@ -1,19 +1,6 @@
 const User = require("../models/User.js");
 const Chats = require("../models/Chats.js");
 
-const mongoose = require("mongoose");
-
-const DB_URI = "mongodb://localhost/farmConnect"||process.env.ATLAS_URI;
-mongoose.connect(DB_URI,{useNewUrlParser:true,
-                        useCreateIndex:true,
-                        useUnifiedTopology:true,
-                        useFindAndModify: false})
-        .then((r) => console.log("Succesffully Connected to DB"))
-        .catch((err) => {
-          console.log("Failed to connect to DB. Detail:"+err )
-        });
-
-
 exports. createAUser = (userInfo, res) => {
   User.findOne({email: userInfo.email}, function (err, data) {
       if(err) {
