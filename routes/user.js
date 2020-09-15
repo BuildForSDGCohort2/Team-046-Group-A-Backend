@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const dbApp = require("../repository/DB.js");
 const key = process.env.SECRET_KEY || "secret";
+const User = require("../models/User");
 router.use(cors())
 const errorMsg={};
 const status ={};

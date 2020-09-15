@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const key = process.env.SECRET_KEY || 'secret'
 router.use(cors())
-const Consumer = require('../models/Consumer')
+const Consumer = require('../models/Consumer');
 router.post('/signup', async(req,res)=>{
   const today = new Date()
 
