@@ -12,9 +12,9 @@ module.exports = function (app, db) {
       done(null, user.id);
     });
 
-    passport.deserializeUser((id, done) => {
+    passport.deserializeUser((myId, done) => {
         db.collection("user").findOne(
-            {id: id},
+            {id: myId},
             (err, doc) => {
                 done(null, doc);
             }

@@ -8,9 +8,8 @@ const bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 const helmet = require("helmet");
 const dotenv = require("dotenv");
-const App =app;
-const http = require("http").Server(App);
-const io = require("socket.io")(http);
+const Http = require("http").Server(app);
+const io = require("socket.io")(Http);
 const indexRouter = require("./routes/index");
 const farmerRouter = require("./routes/farmer");
 const userRouter = require("./routes/user");
@@ -71,9 +70,9 @@ mongoose.connect(mongoURI,{useNewUrlParser:true,
           chatAuth(app,db);
           chatRouter(app);
 
-          const port = process.env.PORT || 5000
+          const port = process.env.PORT || 5000;
 
-          http.listen(port, () => {
+          Http.listen(port, () => {
             console.log(`Server Running at ${port}`);
           });
           //for chatting
