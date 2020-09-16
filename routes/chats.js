@@ -8,7 +8,7 @@ module.exports = function (app) {
           return next();
       }
       res.redirect("/");
-    };
+    }
 
     app.route("/auth/github")
       .get(passport.authenticate("github"));
@@ -26,7 +26,7 @@ module.exports = function (app) {
 
     app.route("/chat")
       .get(ensureAuthenticated, (req, res) => {
-        console.log(req.session);
+        //console.log(req.session);
            res.render(process.cwd() + "/views/pug/chat", {user: req.user});
       });
 
@@ -37,9 +37,7 @@ module.exports = function (app) {
       });
 
     app.use((req, res, next) => {
-      res.status(404)
-        .type("text")
-        .send("Not Found");
+      res.status(404).type("text").send("Not Found");
     });
 
 }

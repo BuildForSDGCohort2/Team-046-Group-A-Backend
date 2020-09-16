@@ -1,7 +1,7 @@
-const session     = require('express-session');
-const mongo       = require('mongodb').MongoClient;
-const passport    = require('passport');
-const GitHubStrategy = require('passport-github').Strategy;
+const session     = require("express-session");
+const mongo       = require("mongodb").MongoClient;
+const passport    = require("passport");
+const GitHubStrategy = require("passport-github").Strategy;
 
 module.exports = function (app, db) {
 
@@ -13,7 +13,7 @@ module.exports = function (app, db) {
     });
 
     passport.deserializeUser((id, done) => {
-        db.collection('user').findOne(
+        db.collection("user").findOne(
             {id: id},
             (err, doc) => {
                 done(null, doc);
@@ -28,29 +28,28 @@ module.exports = function (app, db) {
 
       },
       function(accessToken, refreshToken, profile, cb) {
-          db.collection('user').findAndModify(
+          db.collection("user").findAndModify(
               {id: profile.id},
               {},
               {$setOnInsert:{
                   id: profile.id,
-                  name: profile.displayName || 'Anonymous',
-                  photo: profile.photos[0].value || '',
-                  email: profile.emails[0].value || 'No public email',
-                  created_on: new Date(),
-                  provider: profile.provider || '',
-                  chat_messages: 0
+                  name: profile.displayName || "Anonymous",
+                  photo: profile.photos[0].value || "",
+                  email: profile.emails[0].value || "No public email",
+                  createdAt: new Date(),
+                  provider: profile.provider || "",
+                  chatMessages: 0
               },$set:{
-                  last_login: new Date()
+                  lastLogin: new Date()
               },$inc:{
-                  login_count: 1
+                  loginCount: 1
               }},
               {upsert:true, new: true}, //Insert object if not found, Return new object after modify
               (err, doc) => {
                   return cb(null, doc.value);
               }
           );
-          //console.log("Very good and Done.. Profile::"+JSON.stringify(profile));
         }
     ));
 
-}
+};
